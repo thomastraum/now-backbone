@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Backbone.js Web App</title>
+        <link rel="stylesheet" href="stylesheets/style.css" />
+    </head>
+    <body>
+        
+        <div id="image-view-single">
+            <ul id="image_single_menu">
+                <li id="close"><a href="#">Close</a></li>
+                <li id="next"><a href="#">Next</a></li>
+                <li id="prev"><a href="#">Prev</a></li>
+            </ul>
+            <div id="image-container"></div>
+        </div>
+
+        <div id="images">
+        </div>
+
+        <script id="thumb-template" type="text/template">
+                <img src="thumbs/<%= thumb_name %>" alt="<%= thumb_name %>" width="<%=thumb_width %>" height="<%=thumb_height %>" />
+                <h1><%= name %><span></h1>
+                <p><%= new Date(created_at) %><p>
+                <p id="tag"><%=tags %><p>
+        </script>
+
+        <script id="image-template" type="text/template">
+                <img src="images/<%= name %>" alt="<%= name %>" width="<%=width %>" height="<%=height %>" />
+                <h1><%= name %><span></h1>
+                <p><%= new Date(created_at) %><p>
+                <p id="tag"><%=tags %><p>
+        </script>
+
+        <script src="javascripts/jquery-1.7.2.min.js"></script>
+        <script src="javascripts/Underscore-min.js"></script>
+        <script src="javascripts/Backbone-min.js"></script>
+        <script src="javascripts/app.js"></script>
+
+    </body>
+</html>
+
