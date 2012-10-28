@@ -1,6 +1,6 @@
 (function ($) {
 
-	var images = [{ "tags": "ficken", "name":"tumblr_max544ZWIF1qznlfio1_500.jpg","feed_id":"506d57d8a23b78e74b000027","original_url":"http://25.media.tumblr.com/tumblr_max544ZWIF1qznlfio1_500.jpg","width":500,"height":623,"thumb_name":"tumblr_max544ZWIF1qznlfio1_500.thumb.jpg","thumb_width":361,"thumb_height":450,"id":"506d57dca23b78e74b000039","__v":0,"created_at":"2012-10-04T09:33:16.524Z"}
+	var images_data = [{ "tags": "ficken", "name":"tumblr_max544ZWIF1qznlfio1_500.jpg","feed_id":"506d57d8a23b78e74b000027","original_url":"http://25.media.tumblr.com/tumblr_max544ZWIF1qznlfio1_500.jpg","width":500,"height":623,"thumb_name":"tumblr_max544ZWIF1qznlfio1_500.thumb.jpg","thumb_width":361,"thumb_height":450,"id":"506d57dca23b78e74b000039","__v":0,"created_at":"2012-10-04T09:33:16.524Z"}
 	,{"tags": "ficken", "name":"tumblr_mb34x3dT551qznlfio1_500.png","feedid":"506d57d8a23b78e74b000027","original_url":"http://25.media.tumblr.com/tumblr_mb34x3dT551qznlfio1_500.png","width":460,"height":484,"thumb_name":"tumblr_mb34x3dT551qznlfio1_500.thumb.png","thumb_width":428,"thumb_height":450,"id":"506d57dca23b78e74b000038","__v":0,"created_at":"2012-10-04T09:33:16.400Z"}
 	,{"tags": "design", "name":"tumblr_max51kDk0o1qznlfio1_500.jpg","feedid":"506d57d8a23b78e74b000027","original_url":"http://25.media.tumblr.com/tumblr_max51kDk0o1qznlfio1_500.jpg","width":391,"height":640,"thumb_name":"tumblr_max51kDk0o1qznlfio1_500.thumb.jpg","thumb_width":275,"thumb_height":450,"id":"506d57dca23b78e74b000037","__v":0,"created_at":"2012-10-04T09:33:16.355Z"}
 	,{"tags": "landscape", "name":"tumblr_maxqscvcen1qznlfio1_500.jpg","feedid":"506d57d8a23b78e74b000027","original_url":"http://24.media.tumblr.com/tumblr_maxqscvcen1qznlfio1_500.jpg","width":487,"height":750,"thumb_name":"tumblr_maxqscvcen1qznlfio1_500.thumb.jpg","thumb_width":292,"thumb_height":450,"id":"506d57dca23b78e74b000036","__v":0,"created_at":"2012-10-04T09:33:16.337Z"}
@@ -26,7 +26,7 @@
 
 		defaults: function() {
 			return {
-				order: thumbs.nextOrder(),
+				order: images.nextOrder(),
 		        done: false
 			};
 		},
@@ -43,7 +43,7 @@
 	
 //------------------------------------------------------------------------------
 
-	var Thumbs = Backbone.Collection.extend({
+	var Images = Backbone.Collection.extend({
 
 		model: Image,
 
@@ -204,15 +204,15 @@
 
 		initialize: function () {
 
-			_.each(images, function(image){
-				// console.log(image);
-				thumbs.add(image);
+			_.each(images_data, function(data){
+				// console.log(data);
+				images.add(data);
 			});
 
 			// close when selected 
 			this.collection.on( 'change:selected', this.hide, this );
 
-			// show thumbs when single view is closed
+			// show images when single view is closed
 			image_view_single.bind('ImageViewSingle:closed', this.show, this);
 
 			this.render();
@@ -269,18 +269,19 @@
 
 	    imageUrlFilter: function (id) {
 
-	    	console.log( "asdasda" +  thumbs.get(id) );
-	        thumbs.get(id).select();
-	        // images.trigger("change:selected");
+	    	console.log( "asdasda" +  images.get(id) );
+	        images.get(id).select();
 	    }
 	});
 
 	var images_router = new ImagesRouter();
-	var thumbs = new Thumbs();
-	var image_view_single = new ImageViewSingle({collection:thumbs, router:images_router });
-	var thumbs_view = new ThumbsView( {collection:thumbs, router:images_router} );
+	var images = new Images();
+	var image_view_single = new ImageViewSingle({collection:images, router:images_router });
+	var thumbs_view = new ThumbsView( {collection:images, router:images_router} );
 
-	Backbone.history.start({pushState: true});
+	// Backbone.history.start({pushState: true});
+
+	console.log( 'hi');
 
 } (jQuery));
 
