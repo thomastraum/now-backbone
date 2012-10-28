@@ -71,8 +71,6 @@
 
 	});
 
-	var thumbs = new Thumbs;
-
 //------------------------------------------------------------------------------ VIEWS
 
 	var ThumbView  = Backbone.View.extend({
@@ -97,6 +95,7 @@
 	});
 
 //------------------------------------------------------------------------------
+
 	var ImageViewSingle = Backbone.View.extend({
 
 		el:$("#image-view-single"),
@@ -134,6 +133,8 @@
 			this.$el.show();
 			this.activeModel = model;
 			this.render(model);
+
+			this.options.router.navigate( 'image/' + this.activeModel.id, false );
 		},
 
 		close : function() {
@@ -155,6 +156,10 @@
 			this.render( this.activeModel );
 
 			this.activeModel.select();
+
+			// console.log( "router: " + this.options.router );
+
+			this.options.router.navigate( 'image/' + this.activeModel.id, false );
 		},
 
 		prev : function(){
@@ -164,8 +169,9 @@
 
 			this.activeModel = this.collection.at( prev );
 			this.render( this.activeModel );
-
 			this.activeModel.select();
+
+			this.options.router.navigate( 'image/' + this.activeModel.id, false );
 		},
 
 		showHideNav: function( ){
@@ -185,8 +191,6 @@
 		}
 
 	});
-
-	var image_view_single = new ImageViewSingle({collection:thumbs});
 
 //------------------------------------------------------------------------------
 
@@ -212,6 +216,7 @@
 			image_view_single.bind('ImageViewSingle:closed', this.show, this);
 
 			this.render();
+
 		},
 
 		render: function( event ){
@@ -232,7 +237,7 @@
 
 		show: function() {
 
-			console.log( 'show thumbs_view');
+			console.log('show thumbs_view');
 			this.$el.show();
 
 			// console.log( 'selected length', this.collection.where({selected: true}).length);
@@ -240,8 +245,9 @@
 			var scrolltop = this.$el.find( '#thumb-'+selected.id ).offset().top;
 		    $('html, body').animate({scrollTop:scrolltop}, 'normal');
 
-
 			this.collection.on( 'change:selected', this.hide, this );
+
+			this.options.router.navigate( "/", false );
 
 		},
 
@@ -253,8 +259,8 @@
 
 	});
 
-	var thumbs_view = new ThumbsView( {collection:thumbs} );
-	
+//------------------------------------------------------------------------------ ROUTER
+
 	var ImagesRouter = Backbone.Router.extend({
 
 	    routes: {
@@ -269,9 +275,12 @@
 	    }
 	});
 
-
 	var images_router = new ImagesRouter();
+	var thumbs = new Thumbs();
+	var image_view_single = new ImageViewSingle({collection:thumbs, router:images_router });
+	var thumbs_view = new ThumbsView( {collection:thumbs, router:images_router} );
+
 	Backbone.history.start({pushState: true});
-	
+
 } (jQuery));
 
